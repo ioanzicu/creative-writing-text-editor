@@ -16,7 +16,7 @@ import {
 import { random } from './utils'
 
 console.log(random)
-console.log(random.randomInt(1, 10))
+console.log(random.color())
 
 class App extends Component {
   state = {
