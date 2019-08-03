@@ -15,8 +15,8 @@ import {
 
 import { random } from './utils'
 
-console.log(random)
-console.log(random.color())
+// console.log(random)
+// console.log(random.color())
 
 class App extends Component {
   state = {
@@ -35,7 +35,7 @@ class App extends Component {
     })
   }
 
-  rules = () => {
+  get rules() {
     let { rules } = this.state
     let array = []
     let fields = ['name', 'begin', 'end']
@@ -153,7 +153,7 @@ class App extends Component {
       <div>
         <Container>
           <Column>
-            {rules()}
+            {rules}
             <Button onClick={newFields}>New Rule</Button>
           </Column>
           <Column>
