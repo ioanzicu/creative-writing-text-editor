@@ -13,6 +13,11 @@ import {
   Document
 } from './styled'
 
+import { random } from './utils'
+
+console.log(random)
+console.log(random.randomInt(1, 10))
+
 class App extends Component {
   state = {
     editor: '',
@@ -120,9 +125,30 @@ class App extends Component {
     this.registerLanguage(nextState)
   }
 
+  prepareStyles = () => {
+    let { rules } = this.state
+    let styles = []
+    for (let i = 0; i < rules; i++) {
+      styles.push(`
+      .hljs-${this.state['name' + i]} {
+        ${this.state['style' + i]}
+      }`)
+    }
+
+    let newStyles = ''.concat(styles).replace(',', '')
+
+    return newStyles
+  }
+
   render() {
     let { editor } = this.state
-    let { handleChange, newFields, rules, convertToMarkup } = this
+    let {
+      handleChange,
+      newFields,
+      rules,
+      convertToMarkup,
+      prepareStyles
+    } = this
     return (
       <div>
         <Container>
@@ -131,17 +157,14 @@ class App extends Component {
             <Button onClick={newFields}>New Rule</Button>
           </Column>
           <Column>
-            <Button>
-              Random Text
-              <Document>
-                <Editor
-                  name={'Editor'}
-                  value={editor}
-                  onChange={handleChange}
-                />
-                <Markup dangerouslySetInnerHTML={convertToMarkup(editor)} />
-              </Document>
-            </Button>
+            <Button>Random Text</Button>
+            <Document>
+              <Editor name={'editor'} value={editor} onChange={handleChange} />
+              <Markup
+                customStyles={prepareStyles()}
+                dangerouslySetInnerHTML={convertToMarkup(editor)}
+              />
+            </Document>
           </Column>
         </Container>
       </div>
