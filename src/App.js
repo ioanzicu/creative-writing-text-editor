@@ -13,7 +13,7 @@ import {
   Document
 } from './styled'
 
-import { random } from './utils'
+import { random, getRandomPoem } from './utils'
 
 // console.log(random)
 // console.log(random.color())
@@ -140,6 +140,20 @@ class App extends Component {
     return newStyles
   }
 
+  getRandomText = async () => {
+    try {
+      let poem = await getRandomPoem()
+      this.handleChange({
+        target: {
+          name: 'editor',
+          value: poem
+        }
+      })
+    } catch (error) {
+      console.log('getRandomPoem error', error)
+    }
+  }
+
   render() {
     let { editor } = this.state
     let {
@@ -147,7 +161,8 @@ class App extends Component {
       newFields,
       rules,
       convertToMarkup,
-      prepareStyles
+      prepareStyles,
+      getRandomText
     } = this
     return (
       <div>
@@ -157,7 +172,7 @@ class App extends Component {
             <Button onClick={newFields}>New Rule</Button>
           </Column>
           <Column>
-            <Button>Random Text</Button>
+            <Button onClick={getRandomText}>Random Text</Button>
             <Document>
               <Editor name={'editor'} value={editor} onChange={handleChange} />
               <Markup
